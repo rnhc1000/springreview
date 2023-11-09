@@ -1,12 +1,15 @@
 package br.dev.ferreiras.turingReview.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +24,13 @@ public class User implements Serializable {
 	private String email;
 	private String phone;
 	private String password;
+
+	/**
+	 * One User can have multiple orders but an Order can have only one User The
+	 * relationship is done thru the statement below
+	 */
+	@OneToMany(mappedBy = "client")
+	private List<Order> orders = new ArrayList<>();;
 
 	public User() {
 	}
@@ -95,6 +105,10 @@ public class User implements Serializable {
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password=" + password
 				+ "]";
+	}
+
+	public List<Order> getOrders() {
+		return orders;
 	}
 
 }
