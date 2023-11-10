@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.dev.ferreiras.turingReview.entities.User;
 import br.dev.ferreiras.turingReview.services.UserService;
+import br.dev.ferreiras.turingReview.services.exceptions.DatabaseException;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -52,7 +53,7 @@ public class UserResource {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	public ResponseEntity<Void> delete(@PathVariable Long id) throws DatabaseException {
 		userService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
