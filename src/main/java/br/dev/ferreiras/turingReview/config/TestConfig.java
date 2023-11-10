@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import br.dev.ferreiras.turingReview.entities.Category;
 import br.dev.ferreiras.turingReview.entities.Order;
 import br.dev.ferreiras.turingReview.entities.OrderItem;
+import br.dev.ferreiras.turingReview.entities.Payment;
 import br.dev.ferreiras.turingReview.entities.Product;
 import br.dev.ferreiras.turingReview.entities.User;
 import br.dev.ferreiras.turingReview.entities.enums.OrderStatus;
@@ -82,6 +83,9 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		Payment payOne = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+		o1.setPayment(payOne);
+		orderRepository.save(o1);
 
 	}
 
