@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.dev.ferreiras.turingReview.entities.User;
 import br.dev.ferreiras.turingReview.repositories.UserRepository;
+import br.dev.ferreiras.turingReview.services.exceptions.ResourceNotFoundException;
 
 /**
  * to DI to work for a bean created must be registered at Spring Boot. In order
@@ -26,7 +27,7 @@ public class UserService {
 
 	public User findById(Long id) {
 		Optional<User> user = repository.findById(id);
-		return user.get();
+		return user.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 
 	public User insert(User user) {
