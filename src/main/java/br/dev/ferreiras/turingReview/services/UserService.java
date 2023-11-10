@@ -12,6 +12,7 @@ import br.dev.ferreiras.turingReview.entities.User;
 import br.dev.ferreiras.turingReview.repositories.UserRepository;
 import br.dev.ferreiras.turingReview.services.exceptions.DatabaseException;
 import br.dev.ferreiras.turingReview.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 /**
  * to DI to work for a bean created must be registered at Spring Boot. In order
@@ -38,7 +39,7 @@ public class UserService {
 		return repository.save(user);
 	}
 
-	public void delete(Long id) throws DatabaseException {
+	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException ex) {
@@ -52,7 +53,11 @@ public class UserService {
 	public User update(Long id, User user) {
 
 		User entity = repository.getReferenceById(id);
-		updateData(entity, user);
+		try {
+			updateData(entity, user);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 		return repository.save(entity);
 
 	}
